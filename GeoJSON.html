@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Map with Airports</title>
+    <link href="https://unpkg.com/maplibre-gl@^5.6.0/dist/maplibre-gl.css" rel="stylesheet" />
+    <style>
+        body { margin: 0; padding: 0; }
+        #map { position: absolute; top: 0; right: 0; bottom: 0; left: 0; }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    
+    <script src="https://unpkg.com/maplibre-gl@^5.6.0/dist/maplibre-gl.js"></script>
+
+    <script>
+        var map = new maplibregl.Map({
+            container: 'map',
+            style: 'https://api.maptiler.com/maps/streets-v2/style.json?key=hueaGXSH4SiYlpLYFoMC',
+            center: [0.11, 51.49],
+            zoom: 6,
+        });
+
+        var london = new maplibregl.Marker()
+            .setLngLat([0.11, 51.49])
+            .addTo(map);
+
+        map.on('load', function() {
+            map.addSource('Airport_points', {
+                type: 'geojson',
+                // *** CHANGED THIS LINE ***
+                data: './airports.geojson' // Load the local GeoJSON file
+            });
+
+            map.loadImage(
+                'https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-plane-512.png',
+                function(error, image) {
+                    if (error) {
+                        console.error('Error loading image:', error);
+                        return;
+                    }
+                    map.addImage('Airport_icon', image);
+
+                    map.addLayer({
+                        'id': 'Airports',
+                        'type': 'symbol',
+                        'source': 'Airport_points',
+                        'layout': {
+                            'icon-image': 'Airport_icon',
+                            'icon-size': 0.05,
+                            'icon-allow-overlap': true
+                        }
+                    });
+                }
+            );
+        });
+
+    </script>
+</body>
+</html>
