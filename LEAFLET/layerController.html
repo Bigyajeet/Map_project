@@ -63,14 +63,30 @@ googleSat = L.tileLayer('http://{s}.google.com/vt?lyrs=s&x={x}&y={y}&z={z}',{
 
 // marker
 var myicon=L.icon({
-    iconUrl: 'icon.jpg',
+    iconUrl: 'iconmao.png',
     iconSize: [38, 95],
 
 });
 var Singlemarker=L.marker([51.505, -0.09],{icon:myicon,draggable:true});
 var popup=Singlemarker.bindPopup("this is patia"+Singlemarker.getLatLng()).openPopup()
 popup.addTo(map);
+var Secondmarker=L.marker([50.505, -0.08],{icon:myicon,draggable:true});
 
 console.log(Singlemarker.toGeoJSON());
+//layer controller
+var baseMaps = {
+    "OSM": osm,
+    "MtbMap": MtbMap,
+     "DARK":  darkmap,
+    "Google Street":googleStreets,
+    "Google Satellite": googleSat ,
+};
+
+var overlayMaps = {
+    "first Marker": Singlemarker,
+    "Second Marker": Secondmarker,
+};
+map.removeLayer(Singlemarker);
+ L.control.layers(baseMaps, overlayMaps,{collapsed:false}).addTo(map);
     
 </script>
