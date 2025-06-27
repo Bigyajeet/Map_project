@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+    <title>LEAFLET</title>
+    <style>
+        #map{
+            width:100%;
+            height:100vh;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    
+</body>
+</html>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+    //map instializtion
+var map = L.map('map').setView([51.505, -0.09], 13);
+//osm layer
+var osm=L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+});
+osm.addTo(map);
+
+//overwrite as code are written from top to bottom
+var MtbMap = L.tileLayer('http://tile.mtbmap.cz/mtbmap_tiles/{z}/{x}/{y}.png', {
+	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &amp; USGS'
+});
+
+// MtbMap.addTo(map)
+
+var darkmap= L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+	subdomains: 'abcd',
+	maxZoom: 20
+});
+// darkmap.addTo(map);
+
+//google street
+// Hybrid: s,h;
+// Satellite: s;
+// Streets: m;
+// Terrain: p;
+
+googleStreets = L.tileLayer('http://{s}.google.com/vt?lyrs=m&x={x}&y={y}&z={z}',{
+    maxZoom: 20,
+    subdomains:['mt0','mt1','mt2','mt3']
+});
+// googleStreets.addTo(map);
+
+//google satellite
+googleSat = L.tileLayer('http://{s}.google.com/vt?lyrs=s&x={x}&y={y}&z={z}',{
+    maxZoom: 20,
+    subdomains:['mt0','mt1','mt2','mt3']
+});
+// googleSat.addTo(map)
+
+// marker
+var myicon=L.icon({
+    iconUrl: 'Maplibrebasedproject/LEAFLET/icon.jpg',
+    iconSize: [38, 95],
+
+});
+var Singlemarker=L.marker([51.505, -0.09],{icon:myicon,draggable:true});
+var popup=Singlemarker.bindPopup("this is patia"+Singlemarker.getLatLng()).openPopup()
+popup.addTo(map);
+
+console.log(Singlemarker.toGeoJSON());
+    
+</script>
